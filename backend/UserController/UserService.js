@@ -1,6 +1,5 @@
 const jwt = require("jsonwebtoken");
 const { Faculty, StudentHead, Volunteer,Participant,Event } = require("./userModel");
-
 const JWT_SECRET = process.env.JWT_SECRET || "1234";
 
 module.exports.userCreateService = async (UserDetails) => {
@@ -38,7 +37,6 @@ module.exports.userCreateService = async (UserDetails) => {
         faculty.student_heads.push({ student_head_id: email });
         await faculty.save();
       }
-      
       newUser = new Model({ name, email, password, department, headEmail });
     } else {
       newUser = new Model({ name, email, password, department });
@@ -55,27 +53,32 @@ module.exports.userCreateService = async (UserDetails) => {
 
 module.exports.createEventService = async (eventDetails) => {
   try {
-    const { name, venue, student_head, time } = eventDetails;
+    const { name, venue, student_head, time, faculty } = eventDetails;
 
     // Validate required fields
-    if (!name || !venue || !student_head || !time) {
+    if (!name || !venue || !student_head || !time || !faculty) {
       return { success: false, message: "All fields are required" };
     }
 
-    // Find the student head
-    const Faculty1 = await StudentHead.findOne({});
+    const Faculty1 = await Faculty.findOne({ email: faculty }); 
+    if (!Faculty1) {
+      return { success: false, message: "Faculty not found" };
+    }
+
     const Student1 = await StudentHead.findOne({ email: student_head });
     if (!Student1) {
       return { success: false, message: "Student head not found" };
     }
 
-    
-    const newEvent = new Event({ name, venue, student_head, time });
+    const newEvent = new Event({ name, venue, student_head, time, faculty });
     await newEvent.save();
 
-    // Add event to student head's events list
+    
+    Faculty1.events.push({ event_id: newEvent._id });
     Student1.events.push({ event_id: newEvent._id });
 
+    
+    await Faculty1.save();
     await Student1.save();
 
     return { success: true, message: "Event created successfully" };
@@ -84,6 +87,7 @@ module.exports.createEventService = async (eventDetails) => {
     return { success: false, message: "Server Error" };
   }
 };
+
 
 
 
@@ -123,7 +127,6 @@ module.exports.userLoginService = async (UserDetails) => {
     return { success: false, message: "Server Error" };
   }
 };
-
 module.exports.getEventService = async (userDetails) => {
   try {
     const { email, role } = userDetails;
@@ -137,13 +140,18 @@ module.exports.getEventService = async (userDetails) => {
 
     // Fetch user based on role
     const user = await Model.findOne({ email });
-
     if (!user) return { success: false, message: "User not found" };
+
+    // Extract event IDs from the user object
+    const eventIds = user.events.map(event => event.event_id);
+
+    // Fetch events using the extracted event IDs
+    const events = await Event.find({ _id: { $in: eventIds } });
 
     return {
       success: true,
       message: "Events retrieved successfully",
-      events: user.events || [],
+      events: events || [],
     };
   } catch (error) {
     console.error(error);

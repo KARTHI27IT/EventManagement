@@ -19,6 +19,7 @@ const Faculty = mongoose.model("Faculty", facultySchema);
 
 
 const studentHeadSchema = new mongoose.Schema({
+  headEmail:String,
   name: String,
   email: { type: String, unique: true },
   password: String,
@@ -47,6 +48,7 @@ const Participant = mongoose.model("Participant", participantSchema);
 const EventSchema = new mongoose.Schema({
   name:String,
   venue:String,
+  
   student_head:String,
   time:String
 })

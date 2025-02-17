@@ -4,13 +4,16 @@ import { useNavigate } from "react-router-dom"; // Import useNavigate hook
 
 function FacultyDashboard() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const userEmail = localStorage.getItem("userEmail");
   const [eventData, setEventData] = useState({
     name: "",
     date: "",
     venue: "",
     time: "",
-    student_head: "",
+    student_head:"",
+    faculty:userEmail
   });
+  
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate(); // Initialize the navigate function
