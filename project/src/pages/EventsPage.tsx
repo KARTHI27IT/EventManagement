@@ -38,7 +38,7 @@ function EventsPage() {
       if (!response.ok) {
         throw new Error(data.message || "Failed to fetch events");
       }
-
+      
       setEvents(data.events);
     } catch (error) {
       toast.error(error.message);
