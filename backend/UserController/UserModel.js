@@ -48,7 +48,7 @@ const Participant = mongoose.model("Participant", participantSchema);
 const EventSchema = new mongoose.Schema({
   name:String,
   venue:String,
-  
+  date:Date,
   student_head:String,
   time:String
 })

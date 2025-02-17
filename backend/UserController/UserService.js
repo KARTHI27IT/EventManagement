@@ -53,7 +53,7 @@ module.exports.userCreateService = async (UserDetails) => {
 
 module.exports.createEventService = async (eventDetails) => {
   try {
-    const { name, venue, student_head, time, faculty } = eventDetails;
+    const { name, venue, student_head, time, faculty,date } = eventDetails;
 
     // Validate required fields
     if (!name || !venue || !student_head || !time || !faculty) {
@@ -70,7 +70,7 @@ module.exports.createEventService = async (eventDetails) => {
       return { success: false, message: "Student head not found" };
     }
 
-    const newEvent = new Event({ name, venue, student_head, time, faculty });
+    const newEvent = new Event({ name, venue, student_head, time, faculty,date });
     await newEvent.save();
 
     
