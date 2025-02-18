@@ -6,10 +6,13 @@ function VolunteerDashboard() {
   const [studentHead, setStudentHead] = useState('');
   const [facultyHead, setFacultyHead] = useState('');
   const [eventName, setEventName] = useState('');
-  const [odEventName, setODEventName] = useState('');
-  const [odReason, setODReason] = useState('');
-  const [odDuration, setODDuration] = useState('');
+  const [odName, setODName] = useState('');
+  const [odRegNum, setODRegNum] = useState('');
   const [odDate, setODDate] = useState('');
+  const [odStartTime, setODStartTime] = useState('');
+  const [odEndTime, setODEndTime] = useState('');
+  const [odDept, setODDept] = useState('');
+  const [odReason, setODReason] = useState('');
   const [tasks, setTasks] = useState([
     { id: 1, text: 'Task 1', event: 'Event 1', completed: false },
     { id: 2, text: 'Task 2', event: 'Event 2', completed: false },
@@ -34,10 +37,13 @@ function VolunteerDashboard() {
 
   const handleODSubmit = () => {
     // Handle the OD request form submission logic here
-    console.log('Event Name:', odEventName);
-    console.log('Reason:', odReason);
-    console.log('Duration:', odDuration);
+    console.log('Name:', odName);
+    console.log('Registration Number:', odRegNum);
     console.log('Date:', odDate);
+    console.log('Start Time:', odStartTime);
+    console.log('End Time:', odEndTime);
+    console.log('Department:', odDept);
+    console.log('Reason:', odReason);
     toggleODPopup();
   };
 
@@ -212,13 +218,60 @@ function VolunteerDashboard() {
             <h2 className="text-lg font-semibold mb-4">Make OD Request</h2>
             <div className="space-y-4">
               <div>
-                <label className="block text-gray-700">Event Name</label>
+                <label className="block text-gray-700">Name</label>
                 <input
                   type="text"
-                  value={odEventName}
-                  onChange={(e) => setODEventName(e.target.value)}
+                  value={odName}
+                  onChange={(e) => setODName(e.target.value)}
                   className="w-full px-4 py-2 border rounded"
-                  placeholder="Enter event name"
+                  placeholder="Enter your name"
+                />
+              </div>
+              <div>
+                <label className="block text-gray-700">Registration Number</label>
+                <input
+                  type="text"
+                  value={odRegNum}
+                  onChange={(e) => setODRegNum(e.target.value)}
+                  className="w-full px-4 py-2 border rounded"
+                  placeholder="Enter your registration number"
+                />
+              </div>
+              <div>
+                <label className="block text-gray-700">Date</label>
+                <input
+                  type="date"
+                  value={odDate}
+                  onChange={(e) => setODDate(e.target.value)}
+                  className="w-full px-4 py-2 border rounded"
+                />
+              </div>
+              <div>
+                <label className="block text-gray-700">Start Time</label>
+                <input
+                  type="time"
+                  value={odStartTime}
+                  onChange={(e) => setODStartTime(e.target.value)}
+                  className="w-full px-4 py-2 border rounded"
+                />
+              </div>
+              <div>
+                <label className="block text-gray-700">End Time</label>
+                <input
+                  type="time"
+                  value={odEndTime}
+                  onChange={(e) => setODEndTime(e.target.value)}
+                  className="w-full px-4 py-2 border rounded"
+                />
+              </div>
+              <div>
+                <label className="block text-gray-700">Department</label>
+                <input
+                  type="text"
+                  value={odDept}
+                  onChange={(e) => setODDept(e.target.value)}
+                  className="w-full px-4 py-2 border rounded"
+                  placeholder="Enter your department"
                 />
               </div>
               <div>
@@ -229,25 +282,6 @@ function VolunteerDashboard() {
                   onChange={(e) => setODReason(e.target.value)}
                   className="w-full px-4 py-2 border rounded"
                   placeholder="Enter reason"
-                />
-              </div>
-              <div>
-                <label className="block text-gray-700">Duration</label>
-                <input
-                  type="text"
-                  value={odDuration}
-                  onChange={(e) => setODDuration(e.target.value)}
-                  className="w-full px-4 py-2 border rounded"
-                  placeholder="Enter duration"
-                />
-              </div>
-              <div>
-                <label className="block text-gray-700">Date</label>
-                <input
-                  type="date"
-                  value={odDate}
-                  onChange={(e) => setODDate(e.target.value)}
-                  className="w-full px-4 py-2 border rounded"
                 />
               </div>
               <button
